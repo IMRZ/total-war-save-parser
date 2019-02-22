@@ -1,0 +1,26 @@
+{
+  "name": "total-war-save-parser",
+  "version": "0.1.0",
+  "main": "dist/total-war-save-parser.js",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "karma start --single-run=false --browsers ChromeHeadless"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "karma": "^4.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-typescript": "^4.0.0",
+    "karma-typescript-preprocessor": "^0.4.0",
+    "mocha": "^5.2.0",
+    "rollup": "^1.1.2",
+    "rollup-plugin-typescript2": "^0.19.2",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "jdataview": "^2.5.0",
+    "lzma": "^2.3.2"
+  }
+}
