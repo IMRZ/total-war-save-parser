@@ -1,7 +1,6 @@
 
 import { TwsReader } from "../reader";
 import { CompressedNode } from "./CompressedNode";
-import { BufferNode } from "./BufferNode";
 import { DataNode } from "./DataNode";
 
 export class RecordNode implements DataNode {
@@ -31,10 +30,7 @@ export class RecordNode implements DataNode {
     try {
       const size =  reader.readSize();
 
-      // TODO: can't read child with typeCode 0x23
-      const data = (recordInfo.name === "MILITARY_FORCE_TYPE_MANAGER")
-        ? [BufferNode.read(reader, typeCode, size)] // read whole node as bytes
-        : reader.readToOffset(reader.position() + size); // continue
+      const data = reader.readToOffset(reader.position() + size);
 
       const node = new RecordNode(
         typeCode,

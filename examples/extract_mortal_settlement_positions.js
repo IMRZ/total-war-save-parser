@@ -3,7 +3,7 @@ const fs = require("fs");
 const fsExtra = require("fs-extra");
 const TwsParser = require("../dist/total-war-save-parser");
 
-const file = fs.readFileSync("../test/savegames/mortal_empire_turn_0_v1_5_1.save");
+const file = fs.readFileSync("../test/savegames/mortal_empire_turn_0_v1_6_0.save");
 const rootNode = TwsParser.read(file);
 
 // extract regions array data

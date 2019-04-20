@@ -20,6 +20,8 @@ export enum TwsType {
   ANGLE = 0x10,
 
   ASCII_W21 = 0x21,
+  UNKNOWN_23 = 0x23,
+  UNKNOWN_24 = 0x24,
   ASCII_W25 = 0x25,
 
   BOOL_ARRAY = 0x41,

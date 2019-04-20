@@ -33,6 +33,14 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome', 'ChromeHeadless'],
+    browserDisconnectTimeout: 60000,
+    browserNoActivityTimeout: 60000,
+    browserDisconnectTolerance: 3,
+    flags: [
+      '--disable-web-security',
+      '--disable-gpu',
+      '--no-sandbox'
+    ],
     singleRun: false,
     concurrency: Infinity
   });

@@ -1,6 +1,6 @@
 {
   "name": "total-war-save-parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/total-war-save-parser.js",
   "scripts": {
     "build": "rollup -c",
