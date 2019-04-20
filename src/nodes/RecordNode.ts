@@ -27,8 +27,6 @@ export class RecordNode implements DataNode {
   static read(reader: TwsReader, typeCode: number): RecordNode {
     const recordInfo = reader.readRecordInfo(typeCode);
 
-    // console.log("---------- READING: " + recordInfo.name);
-
     try {
       const size =  reader.readSize();
 
