@@ -26,6 +26,8 @@
       TwsType[TwsType["ASCII"] = 15] = "ASCII";
       TwsType[TwsType["ANGLE"] = 16] = "ANGLE";
       TwsType[TwsType["ASCII_W21"] = 33] = "ASCII_W21";
+      TwsType[TwsType["UNKNOWN_23"] = 35] = "UNKNOWN_23";
+      TwsType[TwsType["UNKNOWN_24"] = 36] = "UNKNOWN_24";
       TwsType[TwsType["ASCII_W25"] = 37] = "ASCII_W25";
       TwsType[TwsType["BOOL_ARRAY"] = 65] = "BOOL_ARRAY";
       TwsType[TwsType["INT8_ARRAY"] = 66] = "INT8_ARRAY";
@@ -130,13 +132,6 @@
               elements.push(node);
           }
           return new ArrayNode(typeCode, size, elements);
-      }
-  }
-
-  class BufferNode {
-      // TODO: wrap in BufferNode
-      static read(reader, typeCode, size) {
-          return reader.readBytes(size);
       }
   }
 
@@ -327,12 +322,10 @@
       }
       static read(reader, typeCode) {
           const recordInfo = reader.readRecordInfo(typeCode);
+          // console.log("---------- READING: " + recordInfo.name);
           try {
               const size = reader.readSize();
-              // TODO: can't read child with typeCode 0x23
-              const data = (recordInfo.name === "MILITARY_FORCE_TYPE_MANAGER")
-                  ? [BufferNode.read(reader, typeCode, size)] // read whole node as bytes
-                  : reader.readToOffset(reader.position() + size); // continue
+              const data = reader.readToOffset(reader.position() + size);
               const node = new RecordNode(typeCode, recordInfo.name, recordInfo.version, size, data);
               if (recordInfo.name === CompressedNode.TAG_NAME) {
                   return CompressedNode.read(reader, node);
@@ -525,6 +518,12 @@
                   return Coordinate3dNode.read(this, typeCode);
               case TwsType.UTF16:
                   return this.lookupString(this.utf16Strings);
+              case 0x23:
+                  const buffer23 = this.readBytes(1);
+                  return buffer23;
+              case 0x24:
+                  const buffer24 = this.readBytes(2);
+                  return buffer24;
               case TwsType.ASCII:
               case TwsType.ASCII_W21:
               case TwsType.ASCII_W25:
