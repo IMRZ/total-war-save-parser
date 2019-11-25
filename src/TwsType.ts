@@ -23,6 +23,7 @@ export enum TwsType {
   UNKNOWN_23 = 0x23,
   UNKNOWN_24 = 0x24,
   ASCII_W25 = 0x25,
+  UNKNOWN_26 = 0x26,
 
   BOOL_ARRAY = 0x41,
   INT8_ARRAY = 0x42,

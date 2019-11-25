@@ -14,7 +14,8 @@ import {
   Coordinate2dNode,
   Coordinate3dNode,
   RecordInfo,
-  TwsHeader
+  TwsHeader,
+  Type26
 } from "../nodes";
 
 const UTF8_DECODER = new TextDecoder("utf-8");
@@ -195,12 +196,14 @@ export class TwsReader {
         return Coordinate3dNode.read(this, typeCode);
       case TwsType.UTF16:
         return this.lookupString(this.utf16Strings);
-      case 0x23:
+      case TwsType.UNKNOWN_23:
         const buffer23 = this.readBytes(1);
         return buffer23;
-      case 0x24:
+      case TwsType.UNKNOWN_24:
         const buffer24 = this.readBytes(2);
         return buffer24;
+      case TwsType.UNKNOWN_26:
+        return Type26.read(this);
       case TwsType.ASCII:
       case TwsType.ASCII_W21:
       case TwsType.ASCII_W25:

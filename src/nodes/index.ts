@@ -14,3 +14,4 @@ export * from "./RecordEntryNode";
 export * from "./RecordNode";
 export * from "./RecordInfo";
 export * from "./TwsHeader";
+export * from "./Type26";
