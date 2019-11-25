@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('jdataview')) :
   typeof define === 'function' && define.amd ? define(['exports', 'jdataview'], factory) :
   (global = global || self, factory(global.sfparser = {}, global.JDataView));
-}(this, function (exports, JDataView) { 'use strict';
+}(this, (function (exports, JDataView) { 'use strict';
 
   JDataView = JDataView && JDataView.hasOwnProperty('default') ? JDataView['default'] : JDataView;
 
@@ -29,6 +29,7 @@
       TwsType[TwsType["UNKNOWN_23"] = 35] = "UNKNOWN_23";
       TwsType[TwsType["UNKNOWN_24"] = 36] = "UNKNOWN_24";
       TwsType[TwsType["ASCII_W25"] = 37] = "ASCII_W25";
+      TwsType[TwsType["UNKNOWN_26"] = 38] = "UNKNOWN_26";
       TwsType[TwsType["BOOL_ARRAY"] = 65] = "BOOL_ARRAY";
       TwsType[TwsType["INT8_ARRAY"] = 66] = "INT8_ARRAY";
       TwsType[TwsType["INT16_ARRAY"] = 67] = "INT16_ARRAY";
@@ -95,6 +96,7 @@
               case TwsType.UINT32_ARRAY:
               case TwsType.UINT64_ARRAY:
               case TwsType.ASCII_ARRAY:
+              case TwsType.UTF16_ARRAY:
               case TwsType.COORD2D_ARRAY:
               case TwsType.UINT16_ARRAY:
               case TwsType.INT8_ARRAY:
@@ -106,7 +108,6 @@
               case TwsType.INT64_ARRAY:
               case TwsType.DOUBLE_ARRAY:
               case TwsType.COORD3D_ARRAY:
-              case TwsType.UTF16_ARRAY:
               case TwsType.ANGLE_ARRAY:
                   // i.e. untested, need a savefile to test
                   throw new Error(`Array type - Not implemented: ${typeCode}`);
@@ -322,7 +323,6 @@
       }
       static read(reader, typeCode) {
           const recordInfo = reader.readRecordInfo(typeCode);
-          // console.log("---------- READING: " + recordInfo.name);
           try {
               const size = reader.readSize();
               const data = reader.readToOffset(reader.position() + size);
@@ -350,6 +350,21 @@
           const unknown1 = reader.readUint32();
           const editTime = reader.readUint32();
           return new TwsHeader(id, unknown1, editTime);
+      }
+  }
+
+  class Type26 {
+      static read(reader) {
+          const firstByte = reader.readUint8();
+          if (firstByte === 16) {
+              return reader.readBytes(16);
+          }
+          else if (firstByte === 8) {
+              return reader.readBytes(8);
+          }
+          else {
+              return reader.readBytes(7);
+          }
       }
   }
 
@@ -518,12 +533,14 @@
                   return Coordinate3dNode.read(this, typeCode);
               case TwsType.UTF16:
                   return this.lookupString(this.utf16Strings);
-              case 0x23:
+              case TwsType.UNKNOWN_23:
                   const buffer23 = this.readBytes(1);
                   return buffer23;
-              case 0x24:
+              case TwsType.UNKNOWN_24:
                   const buffer24 = this.readBytes(2);
                   return buffer24;
+              case TwsType.UNKNOWN_26:
+                  return Type26.read(this);
               case TwsType.ASCII:
               case TwsType.ASCII_W21:
               case TwsType.ASCII_W25:
@@ -625,4 +642,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
