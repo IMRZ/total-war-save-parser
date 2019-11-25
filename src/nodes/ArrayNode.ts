@@ -31,6 +31,7 @@ export class ArrayNode implements DataNode {
       case TwsType.UINT32_ARRAY:
       case TwsType.UINT64_ARRAY:
       case TwsType.ASCII_ARRAY:
+      case TwsType.UTF16_ARRAY:
       case TwsType.COORD2D_ARRAY:
       case TwsType.UINT16_ARRAY:
       case TwsType.INT8_ARRAY:
@@ -43,7 +44,6 @@ export class ArrayNode implements DataNode {
       case TwsType.INT64_ARRAY:
       case TwsType.DOUBLE_ARRAY:
       case TwsType.COORD3D_ARRAY:
-      case TwsType.UTF16_ARRAY:
       case TwsType.ANGLE_ARRAY:
         // i.e. untested, need a savefile to test
         throw new Error(`Array type - Not implemented: ${typeCode}`);

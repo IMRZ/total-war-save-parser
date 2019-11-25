@@ -33,9 +33,9 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome', 'ChromeHeadless'],
-    browserDisconnectTimeout: 60000,
-    browserNoActivityTimeout: 60000,
-    browserDisconnectTolerance: 3,
+    browserDisconnectTimeout: 90000,
+    browserNoActivityTimeout: 90000,
+    browserDisconnectTolerance: 1,
     flags: [
       '--disable-web-security',
       '--disable-gpu',
