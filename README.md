@@ -8,7 +8,7 @@ Untested and API not yet final.
 
 Supported games
 ------
-  * Total War Warhammer 2 (1.6.0) READ
+  * Total War Warhammer 2 (1.7.2) READ
 
 Prior art
 ------
