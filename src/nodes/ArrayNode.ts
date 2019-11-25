@@ -25,6 +25,7 @@ export class ArrayNode implements DataNode {
       case TwsType.UINT32_BYTE_ARRAY:
       case TwsType.UINT32_SHORT_ARRAY:
       case TwsType.UINT32_24BIT_ARRAY:
+      case TwsType.INT32_24BIT_ARRAY:
       case TwsType.INT32_BYTE_ARRAY:
       case TwsType.INT32_SHORT_ARRAY:
       case TwsType.UINT8_ARRAY:
