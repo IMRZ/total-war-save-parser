@@ -4,7 +4,7 @@
   (global = global || self, factory(global.sfparser = {}, global.JDataView));
 }(this, (function (exports, JDataView) { 'use strict';
 
-  JDataView = JDataView && JDataView.hasOwnProperty('default') ? JDataView['default'] : JDataView;
+  JDataView = JDataView && Object.prototype.hasOwnProperty.call(JDataView, 'default') ? JDataView['default'] : JDataView;
 
   var TwsType;
   (function (TwsType) {
@@ -104,11 +104,11 @@
               case TwsType.SINGLE_ARRAY:
               case TwsType.BOOL_ARRAY:
               case TwsType.INT32_ARRAY:
+              case TwsType.COORD3D_ARRAY:
                   return ArrayNode.readArray(reader, typeCode);
               case TwsType.INT16_ARRAY:
               case TwsType.INT64_ARRAY:
               case TwsType.DOUBLE_ARRAY:
-              case TwsType.COORD3D_ARRAY:
               case TwsType.ANGLE_ARRAY:
                   // i.e. untested, need a savefile to test
                   throw new Error(`Array type - Not implemented: ${typeCode}`);
