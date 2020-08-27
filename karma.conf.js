@@ -1,3 +1,5 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 module.exports = function(config) {
   config.set({
     basePath: '',
@@ -32,7 +34,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome', 'ChromeHeadless'],
+    browsers: ['ChromeHeadless'],
     browserDisconnectTimeout: 90000,
     browserNoActivityTimeout: 90000,
     browserDisconnectTolerance: 1,

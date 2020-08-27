@@ -4,6 +4,13 @@ import * as TwsParser from "../src";
 
 describe('tws parser - browser', () => {
 
+  it.only('should read troy save', async () => {
+    const saveFileLocation = 'http://localhost:9876/base/test/savegames/troy.save';
+    const arrayBuffer = await fetch(saveFileLocation).then(response => response.arrayBuffer());
+    const result = TwsParser.read(arrayBuffer, true);
+    console.log(result);
+  }).timeout(60000);
+
   it('should read a save file (mortal, empire, turn 0, v1.7.2)', async () => {
     const saveFileLocation = "http://localhost:9876/base/test/savegames/mortal_empire_turn_0_v1_7_2.save";
     const arrayBuffer = await fetch(saveFileLocation).then(response => response.arrayBuffer());
