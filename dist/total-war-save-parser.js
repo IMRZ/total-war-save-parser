@@ -322,13 +322,13 @@
           this.size = size;
           this.data = data;
       }
-      static read(reader, typeCode) {
+      static read(reader, typeCode, headerOnly) {
           const recordInfo = reader.readRecordInfo(typeCode);
           try {
               const size = reader.readSize();
               const data = reader.readToOffset(reader.position() + size);
               const node = new RecordNode(typeCode, recordInfo.name, recordInfo.version, size, data);
-              if (recordInfo.name === CompressedNode.TAG_NAME) {
+              if (headerOnly === false && recordInfo.name === CompressedNode.TAG_NAME) {
                   return CompressedNode.read(reader, node);
               }
               return node;
@@ -373,9 +373,10 @@
   const UTF8_DECODER = new TextDecoder("utf-8");
   const UTF16_DECODER = new TextDecoder("utf-16");
   class TwsReader {
-      constructor(buffer) {
+      constructor(buffer, headerOnly = false) {
           this.dataView = new JDataView(new Int8Array(buffer), 0, buffer.byteLength, true);
           this.header = TwsHeader.read(this);
+          this.headerOnly = headerOnly;
           if (this.header.id !== 0xABCA) {
               throw new Error(`header.id '${this.header.id.toString(16)}' is not supported!`);
           }
@@ -443,7 +444,7 @@
                   return RecordArrayNode.read(this, typeCode);
               }
               else {
-                  return RecordNode.read(this, typeCode);
+                  return RecordNode.read(this, typeCode, this.headerOnly);
               }
           }
       }
@@ -456,7 +457,7 @@
                   return ArrayNode.read(this, typeCode);
               }
               else if (typeCode === TwsType.RECORD) {
-                  return RecordNode.read(this, typeCode);
+                  return RecordNode.read(this, typeCode, this.headerOnly);
               }
               else if (typeCode === TwsType.RECORD_BLOCK) {
                   throw new Error("decodeNode 'readRecordArrayNode' not implemented");
@@ -633,8 +634,8 @@
   TwsReader.LONG_INFO = 0x20; // 00100000
   TwsReader.HEADER_LENGTH = 16;
 
-  function read(buffer) {
-      const reader = new TwsReader(buffer);
+  function read(buffer, headerOnly = false) {
+      const reader = new TwsReader(buffer, headerOnly);
       const rootNode = reader.readAll();
       return rootNode;
   }
