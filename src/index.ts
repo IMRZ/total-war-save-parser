@@ -1,8 +1,8 @@
 
 import { TwsReader } from "./reader";
 
-export function read(buffer: ArrayBuffer) {
-  const reader = new TwsReader(buffer);
+export function read(buffer: ArrayBuffer, headerOnly = false) {
+  const reader = new TwsReader(buffer, headerOnly);
   const rootNode = reader.readAll();
   return rootNode;
 }

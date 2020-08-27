@@ -24,7 +24,7 @@ export class RecordNode implements DataNode {
     this.data = data;
   }
 
-  static read(reader: TwsReader, typeCode: number): RecordNode {
+  static read(reader: TwsReader, typeCode: number, headerOnly: boolean): RecordNode {
     const recordInfo = reader.readRecordInfo(typeCode);
 
     try {
@@ -40,7 +40,7 @@ export class RecordNode implements DataNode {
         data
       );
 
-      if (recordInfo.name === CompressedNode.TAG_NAME) {
+      if (headerOnly === false && recordInfo.name === CompressedNode.TAG_NAME) {
         return CompressedNode.read(reader, node);
       }
 

@@ -4,7 +4,7 @@
   "main": "dist/total-war-save-parser.js",
   "scripts": {
     "build": "rollup -c",
-    "test": "karma start --single-run=false --browsers ChromeHeadless"
+    "test": "karma start --single-run=false"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.6",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "jdataview": "^2.5.0",
-    "lzma": "^2.3.2"
+    "lzma": "^2.3.2",
+    "puppeteer": "^5.2.1"
   }
 }

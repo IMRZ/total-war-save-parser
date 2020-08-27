@@ -33,10 +33,13 @@ export class TwsReader {
   public readonly utf16Strings: string[];
   public readonly asciiStrings: string[];
 
-  constructor(buffer: ArrayBuffer) {
+  public readonly headerOnly: boolean;
+
+  constructor(buffer: ArrayBuffer, headerOnly = false) {
     this.dataView = new JDataView(new Int8Array(buffer), 0, buffer.byteLength, true);
 
     this.header = TwsHeader.read(this);
+    this.headerOnly = headerOnly;
 
     if (this.header.id !== 0xABCA) {
       throw new Error(`header.id '${this.header.id.toString(16)}' is not supported!`);
@@ -112,7 +115,7 @@ export class TwsReader {
       if (blockBit) {
         return RecordArrayNode.read(this, typeCode);
       } else {
-        return RecordNode.read(this, typeCode);
+        return RecordNode.read(this, typeCode, this.headerOnly);
       }
     }
   }
@@ -124,7 +127,7 @@ export class TwsReader {
       } else if (typeCode < TwsType.RECORD) {
         return ArrayNode.read(this, typeCode);
       } else if (typeCode === TwsType.RECORD) {
-        return RecordNode.read(this, typeCode);
+        return RecordNode.read(this, typeCode, this.headerOnly);
       } else if (typeCode === TwsType.RECORD_BLOCK) {
         throw new Error("decodeNode 'readRecordArrayNode' not implemented");
       } else {
